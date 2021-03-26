@@ -1,15 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>{{ title }}</h1>
+  <div v-if="showModal">
+    <!-- listen to event emitted in modal -->
+    <Modal
+        :theme="currentTheme"
+        :switchTheme="switchTheme"
+        :toggleModal="toggleModal"
+        @close="toggleModal"
+    >
+      <h1>{{ header }}</h1>
+      <p>{{ text }}</p>
+      <template v-slot:buttons>
+        <button @click="switchTheme">Switch theme</button>
+        <button @click="toggleModal">Close modal</button>
+      </template>
+    </Modal>
+  </div>
+  <button @click="toggleModal">Open modal</button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+// extra button, different modal
+// same modal component, different template passed
+// different method and data (toggleModal2
+
+import Modal from './components/Modal.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: {Modal},
+  data() {
+    return {
+      title: 'First Vue App !',
+      header: 'Sign up for more',
+      text: 'Blabla the best in the world',
+      currentTheme: 'red',
+      showModal: false
+    }
+  },
+  methods: {
+    switchTheme() {
+      console.log('coucou')
+      if (this.currentTheme === 'red')
+        this.currentTheme = 'dark'
+      else
+        this.currentTheme = 'red'
+    },
+    toggleModal() {
+      this.showModal = !this.showModal
+    }
   }
 }
 </script>
@@ -22,5 +62,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+h1 {
+  border-bottom: 1px solid #ddd;
+  display: inline-block;
+  padding-bottom: 10px;
 }
 </style>
