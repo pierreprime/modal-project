@@ -1,6 +1,8 @@
 <template>
   <h1>{{ title }}</h1>
-  <div v-if="showModal">
+
+  <!-- making use of Teleport -->
+  <teleport to=".modals" v-if="showModal">
     <!-- listen to event emitted in modal -->
     <Modal
         :theme="currentTheme"
@@ -15,8 +17,29 @@
         <button @click="toggleModal">Close modal</button>
       </template>
     </Modal>
-  </div>
+  </teleport>
+
+  <teleport to=".modals" v-if="showNewModal">
+    <Modal
+        :toggleModal="toggleModal2"
+        @close="toggleModal2"
+    >
+      <h2>You are reading {{ title }}</h2>
+
+    </Modal>
+  </teleport>
+
   <button @click="toggleModal">Open modal</button>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br><br>
+  <br>
+  <br>
+  <button @click="toggleModal2">Open new modal</button>
 </template>
 
 <script>
@@ -36,7 +59,8 @@ export default {
       header: 'Sign up for more',
       text: 'Blabla the best in the world',
       currentTheme: 'red',
-      showModal: false
+      showModal: false,
+      showNewModal: false
     }
   },
   methods: {
@@ -49,13 +73,16 @@ export default {
     },
     toggleModal() {
       this.showModal = !this.showModal
+    },
+    toggleModal2() {
+      this.showNewModal = !this.showNewModal
     }
   }
 }
 </script>
 
 <style>
-#app {
+#app, .modals {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
